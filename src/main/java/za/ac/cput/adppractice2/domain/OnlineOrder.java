@@ -2,6 +2,7 @@ package za.ac.cput.adppractice2.domain;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
+import za.ac.cput.adppractice2.util.Helper;
 
 @Entity
 @Table(name = "online_orders")
@@ -59,6 +60,10 @@ public class OnlineOrder extends Order {
 
         @Override
         public Order build() {
+            if (Helper.isNullOrEmpty(deliveryAddress) || Helper.isNullOrEmpty(shippingCode) || digitalPayment <= 0 ) {
+                return null;
+            }
+
             return new OnlineOrder(this);
         }
     }

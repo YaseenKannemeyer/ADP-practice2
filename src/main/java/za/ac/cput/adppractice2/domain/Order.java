@@ -1,13 +1,14 @@
 package za.ac.cput.adppractice2.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.sql.Date;
 
 @Entity
 @Table(name = "orders")
+@Inheritance(strategy = InheritanceType.JOINED)
+@DiscriminatorColumn(name = "order_type", discriminatorType = DiscriminatorType.STRING)
+
 public abstract class Order {
     @Id
     private String OrderId;
@@ -55,8 +56,7 @@ public abstract class Order {
             this.status = status;
             return self();
         }
-
-       protected abstract T self();
+        protected abstract T self();
 
         public abstract Order build();
     }

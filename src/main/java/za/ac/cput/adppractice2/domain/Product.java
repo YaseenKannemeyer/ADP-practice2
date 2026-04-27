@@ -40,7 +40,7 @@ public class Product {
         return stockQuantity;
     }
     
-    private static class Builder{
+    public static class Builder{
         private String productId;
         private String productName;
         private double price;
@@ -66,7 +66,7 @@ public class Product {
             return this;
         }
 
-        public Product builder(){
+        public Product build(){
             return new Product(this);
         }
     }
