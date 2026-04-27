@@ -4,6 +4,7 @@ import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import za.ac.cput.adppractice2.util.Helper;
 
 @Entity
 @Table(name = "customer")
@@ -49,26 +50,30 @@ public class Customer {
         private String email;
         private String mobileNumber;
 
-        public Builder setPatientId(String patientId){
+        public Builder setPatientId(String patientId) {
             this.patientId = patientId;
             return this;
         }
 
-        public Builder setName(Name name){
+        public Builder setName(Name name) {
             this.name = name;
             return this;
         }
 
-        public Builder setEmail(String email){
-            this.email= email;
+        public Builder setEmail(String email) {
+            this.email = email;
             return this;
         }
 
-        private Builder setMobileNumber(String mobileNumber){
-            this.mobileNumber =mobileNumber;
+        public Builder setMobileNumber(String mobileNumber) {
+            this.mobileNumber = mobileNumber;
             return this;
         }
+
         public Customer Build(){
+            if (Helper.isNullOrEmpty(patientId) || Helper.isNullOrEmpty(email) || Helper.isNullOrEmpty(mobileNumber)){
+                return null;
+            }
             return new Customer(this);
         }
     }
