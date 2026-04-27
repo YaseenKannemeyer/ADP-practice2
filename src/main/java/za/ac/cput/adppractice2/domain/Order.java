@@ -7,7 +7,6 @@ import java.sql.Date;
 @Entity
 @Table(name = "orders")
 @Inheritance(strategy = InheritanceType.JOINED)
-@DiscriminatorColumn(name = "order_type", discriminatorType = DiscriminatorType.STRING)
 
 public abstract class Order {
     @Id

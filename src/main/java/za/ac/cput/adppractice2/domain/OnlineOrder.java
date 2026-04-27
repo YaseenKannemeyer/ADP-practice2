@@ -1,11 +1,15 @@
 package za.ac.cput.adppractice2.domain;
 
+import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
+import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.persistence.Table;
 import za.ac.cput.adppractice2.util.Helper;
 
 @Entity
 @Table(name = "online_orders")
+@PrimaryKeyJoinColumn(name = "order_id")
+
 public class OnlineOrder extends Order {
     private String deliveryAddress;
     private String shippingCode;

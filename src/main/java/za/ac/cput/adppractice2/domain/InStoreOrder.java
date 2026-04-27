@@ -1,11 +1,16 @@
 package za.ac.cput.adppractice2.domain;
 
+import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
+import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.persistence.Table;
+import za.ac.cput.adppractice2.util.Helper;
 
 
 @Entity
 @Table(name = "in_store_orders")
+@PrimaryKeyJoinColumn(name = "order_id")
+
 public class InStoreOrder extends Order{
     private double immediatePayment;
     private String cashierName;
@@ -48,7 +53,9 @@ public class InStoreOrder extends Order{
 
         @Override
         public Order build() {
-            return new InStoreOrder(this);
+            if (immediatePayment <= 0 || Helper.isNullOrEmpty(cashierName) ) {
+                return null;
+            }return new InStoreOrder(this);
         }
     }
 }
