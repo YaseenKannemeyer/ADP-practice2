@@ -52,10 +52,17 @@ public class InStoreOrder extends Order{
         }
 
         @Override
-        public Order build() {
-            if (immediatePayment <= 0 || Helper.isNullOrEmpty(cashierName) ) {
-                return null;
-            }return new InStoreOrder(this);
+        public InStoreOrder build() {
+            validateBase();
+            if (immediatePayment <= 0) {
+                throw new IllegalArgumentException("Immediate payment must be greater than 0");
+            }
+
+            if (Helper.isNullOrEmpty(cashierName)) {
+                throw new IllegalArgumentException("Cashier name is required");
+            }
+
+            return new InStoreOrder(this);
         }
     }
 }

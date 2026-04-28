@@ -39,6 +39,6 @@ public class InStoreOrderService implements IService<InStoreOrder, String>,IGetA
 
     @Override
     public List<InStoreOrder> getAll() {
-        return List.of();
+        return inStoreOrderRepository.findAll();
     }
 }
