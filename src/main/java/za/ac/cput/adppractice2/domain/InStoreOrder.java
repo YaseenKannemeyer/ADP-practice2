@@ -1,11 +1,16 @@
 package za.ac.cput.adppractice2.domain;
 
+import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
+import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.persistence.Table;
+import za.ac.cput.adppractice2.util.Helper;
 
 
 @Entity
 @Table(name = "in_store_orders")
+@PrimaryKeyJoinColumn(name = "order_id")
+
 public class InStoreOrder extends Order{
     private double immediatePayment;
     private String cashierName;
@@ -47,7 +52,16 @@ public class InStoreOrder extends Order{
         }
 
         @Override
-        public Order build() {
+        public InStoreOrder build() {
+            validateBase();
+            if (immediatePayment <= 0) {
+                throw new IllegalArgumentException("Immediate payment must be greater than 0");
+            }
+
+            if (Helper.isNullOrEmpty(cashierName)) {
+                throw new IllegalArgumentException("Cashier name is required");
+            }
+
             return new InStoreOrder(this);
         }
     }

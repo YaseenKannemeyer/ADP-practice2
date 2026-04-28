@@ -1,5 +1,6 @@
 package za.ac.cput.adppractice2.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 
 import java.sql.Date;
@@ -7,25 +8,25 @@ import java.sql.Date;
 @Entity
 @Table(name = "orders")
 @Inheritance(strategy = InheritanceType.JOINED)
-@DiscriminatorColumn(name = "order_type", discriminatorType = DiscriminatorType.STRING)
 
 public abstract class Order {
     @Id
-    private String OrderId;
+    private String orderId;
 
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date date;
     private String status;
     
     protected Order() {}
 
     public Order(Builder<?> builder) {
-        this.OrderId = builder.OrderId;
+        this.orderId = builder.OrderId;
         this.date = builder.date;
         this.status = builder.status;
     }
 
     public String getOrderId() {
-        return OrderId;
+        return orderId;
     }
 
     public Date getDate() {
@@ -59,5 +60,19 @@ public abstract class Order {
         protected abstract T self();
 
         public abstract Order build();
+
+        protected void validateBase() {
+            if (OrderId == null || OrderId.isEmpty()) {
+                throw new IllegalArgumentException("orderId is required");
+            }
+
+            if (date == null) {
+                throw new IllegalArgumentException("Date is required");
+            }
+
+            if (status == null || status.isEmpty()) {
+                throw new IllegalArgumentException("Status is required");
+            }
+        }
     }
 }

@@ -1,11 +1,15 @@
 package za.ac.cput.adppractice2.domain;
 
+import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
+import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.persistence.Table;
 import za.ac.cput.adppractice2.util.Helper;
 
 @Entity
 @Table(name = "online_orders")
+@PrimaryKeyJoinColumn(name = "order_id")
+
 public class OnlineOrder extends Order {
     private String deliveryAddress;
     private String shippingCode;
@@ -59,9 +63,19 @@ public class OnlineOrder extends Order {
         }
 
         @Override
-        public Order build() {
-            if (Helper.isNullOrEmpty(deliveryAddress) || Helper.isNullOrEmpty(shippingCode) || digitalPayment <= 0 ) {
-                return null;
+        public OnlineOrder build() {
+            validateBase();
+
+            if (Helper.isNullOrEmpty(deliveryAddress)) {
+                throw new IllegalArgumentException("Delivery address is required");
+            }
+
+            if (Helper.isNullOrEmpty(shippingCode)) {
+                throw new IllegalArgumentException("Shipping code is required");
+            }
+
+            if (digitalPayment <= 0) {
+                throw new IllegalArgumentException("Digital payment must be greater than 0");
             }
 
             return new OnlineOrder(this);
